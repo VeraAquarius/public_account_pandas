@@ -1,5 +1,4 @@
 import pandas as pd
-import numpy as np
 
 # 创建一个示例DataFrame
 data = {
@@ -9,15 +8,23 @@ data = {
 }
 df = pd.DataFrame(data)
 print(df)
-# 定义一个自定义聚合函数，计算两列的和与均值
-def custom_agg(x):
+# 定义一个自定义聚合函数，计算两列的和
+def custom_sum_agg(x):
     return pd.Series({
-        'sum_values': x['Values'].sum(),
-        'mean_more_values': x['More_Values'].mean()
+        'sum_values': x.sum()
+    })
+
+# 定义一个自定义聚合函数，计算两列的均值
+def custom_mean_agg(x):
+    return pd.Series({
+        'mean_more_values': x.mean()
     })
 
 # 使用Pandas groupby进行数据分组，并使用agg应用自定义聚合函数
-result = df.groupby('Category').apply(custom_agg)
+result = (df.groupby('Category').agg({
+    'Values': ['sum', 'mean', custom_sum_agg],  # 应用多个函数
+    'More_Values':[ 'max' ,custom_mean_agg] # 应用多个函数
+}))
 
 # 显示结果
 print(result)
