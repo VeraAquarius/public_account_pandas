@@ -7,7 +7,7 @@ data = {
     'Sales': [200, 340, 250, 220, 300]
 }
 df = pd.DataFrame(data)
-print(df)
+# print(df)
 
 # 使用Pandas groupby进行数据聚合
 grouped_pd = (df.groupby('Region').agg({
@@ -17,3 +17,6 @@ grouped_pd = (df.groupby('Region').agg({
 
 # 显示结果
 print(grouped_pd)
+# print(grouped_pd.dtypes)
+print("print one cell for ['Sales']['sum']['East']")
+print(grouped_pd['Sales']['sum']['East'])
